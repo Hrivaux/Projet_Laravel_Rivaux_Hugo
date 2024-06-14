@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\BienImmo;
 
 class HomeController extends Controller
 {
@@ -21,8 +22,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+    
     public function index()
     {
-        return view('home');
+        // Récupérer toutes les annonces de la table bien_immo avec leurs photos
+        $annonces = BienImmo::with('photos')->get();
+
+        // Passer les données à la vue
+        return view('home', compact('annonces'));
     }
 }
