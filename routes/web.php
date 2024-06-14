@@ -7,6 +7,7 @@ use App\Http\Controllers\FavorisController;
 use App\Http\Controllers\MonCompteController;
 use App\Http\Controllers\AnnonceController;
 use App\Http\Controllers\BienImmoController;
+use App\Http\Controllers\DeposerBienController;
 
 // Page d'accueil
 Route::get('/', function () {
@@ -31,6 +32,12 @@ Route::get('/moncompte', 'App\Http\Controllers\MonCompteController@index')->name
 Route::put('/moncompte/{id}', [MonCompteController::class, 'update'])->name('moncompte.update');
 
 Route::get('/annonce/{id}', [AnnonceController::class, 'show'])->name('annonce.show');
+
+Route::get('/deposer-bien', [DeposerBienController::class, 'index'])->name('deposer_bien');
+
+// Route pour traiter le formulaire de dépôt
+Route::post('/deposer-bien', [DeposerBienController::class, 'store'])->name('deposer_bien.store');
+
 
 
 

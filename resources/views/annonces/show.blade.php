@@ -1,4 +1,3 @@
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBYyW_eWBnuoKjc3YEhNyQ0Eah31gdCgg&callback=initMap" async defer></script>
 @extends('layouts.app')
 
 @section('content')
@@ -35,47 +34,11 @@
             @else
             <p>Aucune photo disponible pour cette annonce.</p>
             @endif
-            <div id="googleMap" style="height: 400px; margin-top: 20px;"></div>
+            <!--<div id="googleMap" style="height: 400px; margin-top: 20px;"></div>-->
         </div>
     </div>
 </div>
 @endsection
 
 @section('scripts')
- <script>
-
-function initMap() {
-    var address = "{{ $annonce->adresse }}";
-    var city = "{{ $annonce->ville }}";
-    var postalCode = "{{ $annonce->code_postal }}";
-    
-    var fullAddress = address + ", " + city + ", " + postalCode;
-
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ 'address': fullAddress }, function (results, status) {
-        if (status == 'OK') {
-            var latitude = results[0].geometry.location.lat();
-            var longitude = results[0].geometry.location.lng();
-
-            // Vérifiez si les valeurs de latitude et longitude sont valides
-            if (!isNaN(latitude) && !isNaN(longitude)) {
-                var map = new google.maps.Map(document.getElementById('googleMap'), {
-                    center: { lat: latitude, lng: longitude },
-                    zoom: 15
-                });
-
-                var marker = new google.maps.Marker({
-                    position: { lat: latitude, lng: longitude },
-                    map: map,
-                    title: fullAddress
-                });
-            } else {
-                console.error('Les valeurs de latitude et longitude sont invalides.');
-            }
-        } else {
-            alert('Erreur de géocodage : ' + status);
-        }
-    });
-}
-</script>
 @endsection

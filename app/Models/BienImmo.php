@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +10,16 @@ class BienImmo extends Model
     use HasFactory;
 
     protected $table = 'bien_immo';
+
+protected $fillable = [
+    'libelle',
+    'prix',
+    'etat',
+    'adresse',
+    'ville',
+    'code_postal',
+];
+
 
     // Relation avec la table photo_bien
     public function photos()

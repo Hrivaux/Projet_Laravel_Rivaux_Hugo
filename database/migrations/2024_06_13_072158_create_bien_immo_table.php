@@ -13,16 +13,18 @@ class CreateBienImmoTable extends Migration
      */
     public function up()
     {
-        Schema::create('bien_immo', function (Blueprint $table) {
-            $table->id();
-            $table->string('libelle');
-            $table->decimal('prix', 10, 2);
-            $table->string('etat');
-            $table->string('adresse'); // Ajout du champ adresse
-            $table->string('ville');   // Ajout du champ ville
-            $table->int('code_postal'); // Ajout du champ code_postal
-            $table->timestamps();
-        });
+Schema::create('bien_immo', function (Blueprint $table) {
+    $table->id();
+    $table->string('libelle');
+    $table->decimal('prix', 10, 2);
+    $table->string('etat');
+    $table->string('adresse');
+    $table->string('ville');
+    $table->integer('code_postal');
+    $table->timestamps(); // Ajouter cette ligne pour inclure les timestamps
+});
+
+
     }
 
     /**

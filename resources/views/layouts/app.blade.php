@@ -11,7 +11,7 @@
 
 <style>
 .header-background {
-    background-image: url("http://localhost/Projet_Laravel_Hugo_Rivaux/resources/img/pexels-expect-best-79873-323780.jpg"); 
+    background-image: url("http://127.0.0.1:8000/img/pexels-expect-best-79873-323780.jpg"); 
     background-size: cover;
     background-position: center;
     height: 600px;
@@ -28,6 +28,8 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_5VcnqUtPMHIKbusYTsYSKihBft6_OE&callback=initMap&v=weekly&libraries=places" defer></script>
+
 </head>
 <body>
     <div id="app">
@@ -62,6 +64,9 @@
                                 </li>
                             @endif
                         @else
+                        <li class="nav-item">
+        <a class="nav-link" href="{{ route('deposer_bien') }}">Déposer un bien</a>
+    </li>
                             <li class="nav-item dropdown">
                                 
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
