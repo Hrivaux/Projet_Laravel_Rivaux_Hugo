@@ -49,8 +49,15 @@
         </div>
 
         <div class="mb-3">
-            <label for="type" class="form-label">Type</label>
-            <input type="text" class="form-control" id="type" name="type" value="{{ old('type', $annonce->type) }}" required>
+            <label for="type" class="form-label">Type de bien</label>
+            <select class="form-select" id="type" name="type" required>
+                <option value="" disabled>-- Sélectionnez un type --</option>
+                <option value="appartement" {{ old('type', $annonce->type) == 'appartement' ? 'selected' : '' }}>Appartement</option>
+                <option value="maison" {{ old('type', $annonce->type) == 'maison' ? 'selected' : '' }}>Maison</option>
+                <option value="studio" {{ old('type', $annonce->type) == 'studio' ? 'selected' : '' }}>Studio</option>
+                <option value="loft" {{ old('type', $annonce->type) == 'loft' ? 'selected' : '' }}>Loft</option>
+                <!-- Ajoutez d'autres types si nécessaire -->
+            </select>
         </div>
 
         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>

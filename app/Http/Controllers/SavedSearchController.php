@@ -7,41 +7,73 @@ use App\Models\SavedSearch;
 
 class SavedSearchController extends Controller
 {
+    // Sauvegarder une nouvelle recherche
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'search_params' => 'required|json',
+            'search_criteria' => 'required|array',
         ]);
 
         SavedSearch::create([
             'user_id' => $request->user()->id,
             'name' => $request->name,
-            'search_criteria' => $request->search_params,
+            'search_criteria' => $request->search_criteria,
         ]);
 
         return back()->with('success', 'Recherche sauvegardée avec succès.');
     }
 
-    public function apply($id)
-    {
-        $search = SavedSearch::findOrFail($id);
+    // Appliquer une recherche sauvegardée
 
-        // Convertir les critères de recherche sauvegardés en tableau
-        $criteria = json_decode($search->search_criteria, true);
 
-        // Rediriger vers la page de recherche avec les critères sauvegardés
-        return redirect()->route('annonces.search', $criteria);
-    }
-     public function destroy($id)
+    // Supprimer une recherche sauvegardée
+    public function destroy($id)
     {
-        // Trouver la recherche sauvegardée par son ID
         $savedSearch = SavedSearch::findOrFail($id);
-
-        // Supprimer la recherche sauvegardée
         $savedSearch->delete();
 
-        // Rediriger avec un message de succès
         return back()->with('success', 'Recherche sauvegardée supprimée avec succès.');
     }
+
+    // Afficher le formulaire d'édition
+    public function edit($id)
+    {
+        $search = SavedSearch::findOrFail($id);
+        return view('saved-searches.edit', compact('search'));
+    }
+
+    public function apply($id)
+{
+    $search = SavedSearch::findOrFail($id);
+    $criteria = $search->search_criteria;
+
+    return redirect()->route('annonces.search', $criteria);
+}
+
+
+    // Mettre à jour une recherche sauvegardée
+public function update(Request $request, $id)
+{
+    $search = SavedSearch::findOrFail($id);
+
+    // Validation des données
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'ville' => 'nullable|string|max:255',
+        'prix_min' => 'nullable|numeric|min:0',
+        'prix_max' => 'nullable|numeric|min:0',
+        'superficie_min' => 'nullable|numeric|min:0',
+        'superficie_max' => 'nullable|numeric|min:0',
+        'type' => 'nullable|string|in:appartement,maison',
+        'ordre' => 'nullable|string|in:prix_asc,prix_desc',
+    ]);
+
+    // Mise à jour de la recherche sauvegardée
+    $search->name = $request->input('name');
+    $search->search_criteria = $validatedData;
+    $search->save();
+
+      return back()->with('success', 'Recherche sauvegardée mise à jour avec succès.');
+}
 }
