@@ -9,7 +9,7 @@ class Annonce extends Model
     protected $table = 'bien_immo'; // Nom de la table dans votre base de données
 
     protected $fillable = [
-        'libelle', 'prix', 'etat', 'description', 'adresse', 'ville', 'code_postal'
+        'libelle', 'prix', 'etat', 'description', 'adresse', 'ville', 'code_postal', 'superficie', 'type', 'created_by'
         // Ajoutez d'autres colonnes de votre table Annonce ici si nécessaire
     ];
 

@@ -8,7 +8,7 @@
                     <div class="card-header">Déposer un bien</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('deposer_bien.store') }}">
+                        <form method="POST" action="{{ route('deposer_bien.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             <!-- Champs du formulaire pour déposer un bien -->
@@ -46,7 +46,31 @@
                                 <input type="text" class="form-control" id="code_postal" name="code_postal" required>
                             </div>
 
-                            <!-- Autres champs à ajouter selon votre besoin -->
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="superficie">Superficie (en m²)</label>
+                                <input type="text" class="form-control" id="superficie" name="superficie" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="type">Type de bien</label>
+                                <select class="form-control" id="type" name="type" required>
+                                    <option value="appartement">Appartement</option>
+                                    <option value="maison">Maison</option>
+                                    <option value="studio">Studio</option>
+                                    <option value="loft">Loft</option>
+                                    <!-- Ajoutez d'autres types si nécessaire -->
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="images">Photos</label>
+                                <input type="file" class="form-control" id="images" name="images[]" multiple>
+                            </div>
 
                             <button type="submit" class="btn btn-primary">Déposer</button>
                         </form>

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,17 +8,22 @@ class BienImmo extends Model
 {
     use HasFactory;
 
-    protected $table = 'bien_immo';
+    protected $fillable = [
+        'libelle',
+        'prix',
+        'etat',
+        'adresse',
+        'ville',
+        'code_postal',
+        'description',
+        'superficie',
+        'type', // Ajouter 'type'
+        'created_by',
+    ];
 
-protected $fillable = [
-    'libelle',
-    'prix',
-    'etat',
-    'adresse',
-    'ville',
-    'code_postal',
-];
+    protected $table = 'bien_immo'; // Spécifiez explicitement le nom de la table
 
+    public $timestamps = false; // Désactiver les timestamps automatiques
 
     // Relation avec la table photo_bien
     public function photos()

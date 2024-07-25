@@ -9,27 +9,26 @@
 
     <title>{{ config('app.name', 'ImoGoGo') }}</title>
 
-<style>
-.header-background {
-    background-image: url("http://127.0.0.1:8000/img/pexels-expect-best-79873-323780.jpg"); 
-    background-size: cover;
-    background-position: center;
-    height: 600px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 6rem;    
-}
-</style>
+    <style>
+    .header-background {
+        background-image: url("http://127.0.0.1:8000/img/pexels-expect-best-79873-323780.jpg"); 
+        background-size: cover;
+        background-position: center;
+        height: 600px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 6rem;    
+    }
+    </style>
+
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC_5VcnqUtPMHIKbusYTsYSKihBft6_OE&callback=initMap&v=weekly&libraries=places" defer></script>
-
 </head>
 <body>
     <div id="app">
@@ -45,7 +44,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('/') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('contact') }}">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('qui_sommes_nous') }}">Qui sommes-nous</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -64,11 +71,10 @@
                                 </li>
                             @endif
                         @else
-                        <li class="nav-item">
-        <a class="nav-link" href="{{ route('deposer_bien') }}">Déposer un bien</a>
-    </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('deposer_bien') }}">Déposer un bien</a>
+                            </li>
                             <li class="nav-item dropdown">
-                                
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
@@ -80,7 +86,7 @@
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Déconnexion') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -93,6 +99,12 @@
                 </div>
             </div>
         </nav>
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <main class="py-4">
             @yield('content')

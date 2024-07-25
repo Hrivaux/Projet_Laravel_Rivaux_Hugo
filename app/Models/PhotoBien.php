@@ -9,11 +9,11 @@ class PhotoBien extends Model
 {
     use HasFactory;
 
-    protected $table = 'photo_bien';
+    protected $fillable = [
+        'id_bien',
+        'image',
+    ];
+    public $timestamps = false; // Désactiver les timestamps automatiques
 
-    // Relation inverse avec la table bien_immo
-    public function bienImmo()
-    {
-        return $this->belongsTo(BienImmo::class, 'id_bien');
-    }
+    protected $table = 'photo_bien'; // Spécifiez explicitement le nom de la table
 }
