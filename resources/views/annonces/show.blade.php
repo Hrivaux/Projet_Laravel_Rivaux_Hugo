@@ -2,14 +2,12 @@
 
 @section('content')
 <div class="container mt-4">
-    <!-- Affichage des détails de l'annonce -->
     <div class="card shadow-sm border-light mb-4">
         <div class="card-header bg-primary text-white">
             <h4 class="mb-0">{{ $annonce->libelle }}</h4>
         </div>
         <div class="card-body">
             <div class="row">
-                <!-- Carousel pour les images -->
                 <div class="col-md-6 mb-3">
                     @if($annonce->photos->isNotEmpty())
                         <div id="carouselExampleControls" class="carousel slide">
@@ -35,7 +33,6 @@
                     @endif
                 </div>
 
-                <!-- Détails de l'annonce -->
                 <div class="col-md-6">
                     <h5 class="mb-4">Détails de l'Annonce</h5>
 
@@ -71,13 +68,24 @@
                                 <p class="mb-0">{{ $annonce->adresse }}, {{ $annonce->ville }} {{ $annonce->code_postal }}</p>
                             </div>
                         </div>
+                        <div class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-file-text me-2" style="font-size: 1.5rem; color: #007bff;"></i>
+                            <div>
+                                <h6 class="mb-1">Superficie</h6>
+                                <p class="mb-0">{{ $annonce->superficie }}</p>
+                            </div>
+                        </div><div class="list-group-item d-flex align-items-center">
+                            <i class="bi bi-file-text me-2" style="font-size: 1.5rem; color: #007bff;"></i>
+                            <div>
+                                <h6 class="mb-1">Type</h6>
+                                <p class="mb-0">{{ $annonce->type }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Boutons d'action -->
             <div class="d-flex justify-content-between mt-4">
-                <!-- Bouton pour ajouter aux favoris -->
                 @if(Auth::check())
                     @if(Auth::user()->favoris->contains($annonce->id))
                         <form action="{{ route('favoris.supprimer', ['bienImmoId' => $annonce->id]) }}" method="POST">
@@ -91,8 +99,6 @@
                         </form>
                     @endif
                 @endif
-
-                <!-- Bouton pour retourner à la liste des annonces -->
                 <a href="{{ url('/') }}" class="btn btn-secondary">Retour à la liste</a>
             </div>
         </div>

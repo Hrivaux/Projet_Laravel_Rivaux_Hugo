@@ -16,16 +16,15 @@
                 @foreach ($favoris as $favori)
                     <div class="col-md-4 mb-4">
                         <div class="card h-100 border rounded shadow">
-                            @if ($favori->photos->isNotEmpty())
-                                <img src="{{ asset('storage/images/' . $favori->photos->first()->image) }}" class="card-img-top rounded-top" style="height: 200px;" alt="{{ $favori->libelle }}">
-                            @else
-                                <img src="https://via.placeholder.com/150" class="card-img-top rounded-top" style="height: 200px;" alt="{{ $favori->libelle }}">
-                            @endif
+                            @if($favori->photos->isNotEmpty())
+                            <img src="{{ asset('storage/' . $favori->photos->first()->image) }}" class="card-img-top rounded-top" style="height: 200px;" alt="{{ $favori->libelle }}">
+                        @else
+                            <img src="https://via.placeholder.com/150" class="card-img-top rounded-top" style="height: 200px;" alt="{{ $favori->libelle }}">
+                        @endif
                             <div class="card-body">
                                 <h5 class="card-title">{{ $favori->libelle }}</h5>
                                 <p class="card-text">Prix : {{ number_format($favori->prix, 2, ',', ' ') }} €</p>
                                 <p class="card-text">État : {{ $favori->etat }}</p>
-                                <!-- Ajoutez d'autres informations de l'annonce si nécessaire -->
                             </div>
                         </div>
                     </div>
@@ -36,7 +35,6 @@
         @endif
     </div>
 
-    <!-- Section Mes recherches sauvegardées -->
     <div class="mb-4 p-3 border rounded shadow">
         <h2>Mes recherches sauvegardées</h2>
 
@@ -47,10 +45,8 @@
                         {{ $search->name }}
 
                         <div class="d-flex">
-                            <!-- Bouton Appliquer -->
                             <a href="{{ route('saved-searches.apply', $search->id) }}" class="btn btn-primary btn-sm me-2">Appliquer</a>
 
-                            <!-- Formulaire pour supprimer la recherche sauvegardée -->
                             <form action="{{ route('saved-searches.destroy', $search->id) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
@@ -65,7 +61,6 @@
         @endif
     </div>
     
-    <!-- Informations personnelles de l'utilisateur -->
     <div class="mb-4 p-3 border rounded shadow">
         <h2>Mes informations personnelles</h2>
 
@@ -113,7 +108,6 @@
         </form>
     </div>
 
-    <!-- Section Mes annonces déposées -->
 <div class="mb-4 p-3 border rounded shadow">
     <h2>Mes annonces déposées</h2>
 
@@ -132,15 +126,9 @@
                             <p class="card-text">Prix : {{ number_format($annonce->prix, 2, ',', ' ') }} €</p>
                             <p class="card-text">État : {{ $annonce->etat }}</p>
 
-                            <!-- Boutons pour Modifier et Supprimer -->
                             <div class="d-flex justify-content-between mt-3">
-                                <!-- Bouton Détails -->
                                 <a href="{{ route('annonces.show', $annonce->id) }}" class="btn btn-info btn-sm">Détails</a>
-
-                                <!-- Bouton Modifier -->
                                 <a href="{{ route('annonces.edit', $annonce->id) }}" class="btn btn-warning btn-sm">Modifier</a>
-
-                                <!-- Formulaire pour Supprimer -->
                                 <form action="{{ route('annonces.destroy', $annonce->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')

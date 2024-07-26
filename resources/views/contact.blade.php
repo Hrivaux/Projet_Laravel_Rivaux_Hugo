@@ -1,4 +1,3 @@
-<!-- resources/views/contact.blade.php -->
 
 @extends('layouts.app')
 
@@ -9,7 +8,6 @@
     <p>Email: contact@imogogo.com</p>
     <p>Téléphone: 0629427275</p>
 
-    <!-- Formulaire de contact -->
     <form action="{{ route('contact.send') }}" method="POST">
         @csrf
         <div class="mb-3">

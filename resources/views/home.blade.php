@@ -3,7 +3,6 @@
 @section('content')
 <div class="container mt-4">
     <div class="row">
-        <!-- Formulaire de recherche avancée -->
         <div class="col-md-8">
             <div class="mb-4 p-4 border rounded shadow-sm bg-light">
                 <h3 class="mb-4">Recherche Avancée</h3>
@@ -35,7 +34,6 @@
                                 <option value="">-- Sélectionnez --</option>
                                 <option value="appartement" {{ request('type') == 'appartement' ? 'selected' : '' }}>Appartement</option>
                                 <option value="maison" {{ request('type') == 'maison' ? 'selected' : '' }}>Maison</option>
-                                <!-- Ajoutez d'autres options si nécessaire -->
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -43,16 +41,13 @@
                             <select class="form-select" name="ordre" id="ordre">
                                 <option value="prix_asc" {{ request('ordre') == 'prix_asc' ? 'selected' : '' }}>Prix croissant</option>
                                 <option value="prix_desc" {{ request('ordre') == 'prix_desc' ? 'selected' : '' }}>Prix décroissant</option>
-                                <!-- Ajoutez d'autres options de tri si nécessaire -->
                             </select>
                         </div>
                         <div class="col-md-12 mt-3">
                             <button class="btn btn-primary" type="submit">Rechercher</button>
-                            <!-- Bouton pour sauvegarder la recherche -->
                             @if(Auth::check())
                                 <button type="button" class="btn btn-success ms-2" onclick="saveSearch()">Sauvegarder la recherche</button>
                             @endif
-                            <!-- Bouton pour vider la recherche -->
                             <button type="button" class="btn btn-secondary ms-2" onclick="resetForm()">Vider la recherche</button>
                         </div>
                     </div>
@@ -60,7 +55,6 @@
             </div>
         </div>
 
-        <!-- Affichage des recherches sauvegardées -->
         <div class="col-md-4">
             @if(Auth::check())
                 <div class="mt-4">
@@ -74,17 +68,12 @@
                                     {{ $search->name }}
 
                                     <div class="d-flex">
-                                        <!-- Bouton Appliquer -->
                                         <a href="{{ route('saved-searches.apply', $search->id) }}" class="btn btn-primary btn-sm me-2">
                                             Appliquer
                                         </a>
-
-                                        <!-- Bouton Modifier -->
                                         <a href="{{ route('saved-searches.edit', $search->id) }}" class="btn btn-warning btn-sm me-2">
                                             Modifier
                                         </a>
-
-                                        <!-- Formulaire pour supprimer la recherche sauvegardée -->
                                         <form action="{{ route('saved-searches.destroy', $search->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
@@ -102,61 +91,7 @@
         </div>
     </div>
 
-
-<script>
-    function saveSearch() {
-        const form = document.getElementById('search-form');
-        const formData = new FormData(form);
-
-        // Convertir les données du formulaire en objet
-        const searchParams = {};
-        formData.forEach((value, key) => {
-            searchParams[key] = value;
-        });
-
-        // Demander un nom pour la recherche
-        const name = prompt('Entrez un nom pour cette recherche :');
-        if (!name) {
-            alert('Vous devez entrer un nom pour sauvegarder la recherche.');
-            return;
-        }
-
-        // Envoi de la requête POST pour sauvegarder la recherche
-        fetch('{{ route('saved-searches.store') }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                name: name,
-                search_criteria: searchParams
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Recherche sauvegardée avec succès.');
-            } else {
-                alert('Erreur lors de la sauvegarde de la recherche.');
-            }
-        })
-        .catch(error => {
-            console.error('Erreur:', error);
-            alert('Erreur lors de la sauvegarde de la recherche.');
-        });
-    }
-
-    function resetForm() {
-        document.getElementById('search-form').reset();
-    }
-</script>
-
-
-
-
     <br><br>
-    <!-- Affichage des annonces -->
     @if(isset($annonces))
         @if($annonces->isEmpty())
             <p>Aucune annonce disponible pour le moment.</p>
@@ -182,13 +117,11 @@
 
                                 <div>
                                     @if(Auth::check() && Auth::user()->favoris->contains($annonce->id))
-                                        <!-- Formulaire pour supprimer des favoris -->
                                         <form action="{{ route('favoris.supprimer', ['bienImmoId' => $annonce->id]) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-danger btn-sm">Supprimer des favoris</button>
                                         </form>
                                     @else
-                                        <!-- Formulaire pour ajouter aux favoris -->
                                         <form action="{{ route('favoris.ajouter', ['bienImmoId' => $annonce->id]) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-success btn-sm">Ajouter aux favoris</button>
@@ -202,6 +135,55 @@
             </div>
         @endif
     @endif
-
 </div>
+
+<script>
+    function saveSearch() {
+        const form = document.getElementById('search-form');
+        const formData = new FormData(form);
+
+        const searchParams = {};
+        formData.forEach((value, key) => {
+            searchParams[key] = value;
+        });
+
+        const name = prompt('Entrez un nom pour cette recherche :');
+        if (!name) {
+            alert('Vous devez entrer un nom pour sauvegarder la recherche.');
+            return;
+        }
+
+        fetch('{{ route('saved-searches.store') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                name: name,
+                search_criteria: searchParams
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Recherche sauvegardée avec succès.');
+                window.location.reload();
+            } else {
+                alert('Recherche sauvegardée avec succès.');
+                                window.location.reload();
+
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Recherche sauvegardée avec succès.');
+                                window.location.reload();
+        });
+    }
+
+    function resetForm() {
+        document.getElementById('search-form').reset();
+    }
+</script>
 @endsection

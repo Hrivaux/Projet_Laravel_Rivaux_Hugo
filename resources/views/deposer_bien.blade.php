@@ -10,8 +10,6 @@
                     <div class="card-body">
                         <form method="POST" action="{{ route('deposer_bien.store') }}" enctype="multipart/form-data">
                             @csrf
-
-                            <!-- Champs du formulaire pour déposer un bien -->
                             <div class="form-group">
                                 <label for="libelle">Libellé du bien</label>
                                 <input type="text" class="form-control" id="libelle" name="libelle" required>
@@ -63,7 +61,6 @@
                                     <option value="maison">Maison</option>
                                     <option value="studio">Studio</option>
                                     <option value="loft">Loft</option>
-                                    <!-- Ajoutez d'autres types si nécessaire -->
                                 </select>
                             </div>
 

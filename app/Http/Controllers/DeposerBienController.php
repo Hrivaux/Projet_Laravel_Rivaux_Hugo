@@ -16,40 +16,48 @@ class DeposerBienController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Validation des données du formulaire
-        $validatedData = $request->validate([
-            'libelle' => 'required|string|max:255',
-            'prix' => 'required|numeric',
-            'etat' => 'required|string',
-            'adresse' => 'required|string|max:255',
-            'ville' => 'required|string|max:255',
-            'code_postal' => 'required|string|max:10',
-            'description' => 'required|string',
-            'superficie' => 'required|numeric',
-            'type' => 'required|string|max:50',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+{
+    $request->validate([
+        'libelle' => 'required|string|max:255',
+        'prix' => 'required|numeric',
+        'etat' => 'required|string',
+        'adresse' => 'required|string|max:255',
+        'ville' => 'required|string|max:255',
+        'code_postal' => 'required|string|max:10',
+        'description' => 'required|string',
+        'superficie' => 'required|numeric',
+        'type' => 'required|string',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+    ]);
 
-        // Ajouter l'ID de l'utilisateur connecté
-        $validatedData['created_by'] = Auth::id();
+    $bien = new BienImmo([
+        'libelle' => $request->libelle,
+        'prix' => $request->prix,
+        'etat' => $request->etat,
+        'adresse' => $request->adresse,
+        'ville' => $request->ville,
+        'code_postal' => $request->code_postal,
+        'description' => $request->description,
+        'superficie' => $request->superficie,
+        'type' => $request->type,
+        'created_by' => auth()->id(),
+    ]);
 
-        // Créer un nouveau bien
-        $bien = BienImmo::create($validatedData);
+    $bien->save();
 
-        // Gérer les fichiers téléchargés
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('images', 'public'); // Stocker l'image dans le disque public
+    if($request->hasFile('images')) {
+        foreach($request->file('images') as $image) {
+            $path = $image->store('photos', 'public');
 
-                // Enregistrer l'image dans la table photo_bien
-                PhotoBien::create([
-                    'id_bien' => $bien->id,
-                    'image' => $path
-                ]);
-            }
+            $photo = new PhotoBien([
+                'id_bien' => $bien->id,
+                'image' => $path,
+            ]);
+
+            $photo->save();
         }
+    }
 
         return redirect()->route('deposer_bien')->with('success', 'Bien déposé avec succès.');
-    }
+}
 }

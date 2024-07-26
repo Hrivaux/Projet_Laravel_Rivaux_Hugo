@@ -7,7 +7,6 @@ use App\Models\SavedSearch;
 
 class SavedSearchController extends Controller
 {
-    // Sauvegarder une nouvelle recherche
     public function store(Request $request)
     {
         $request->validate([
@@ -24,10 +23,7 @@ class SavedSearchController extends Controller
         return back()->with('success', 'Recherche sauvegardée avec succès.');
     }
 
-    // Appliquer une recherche sauvegardée
 
-
-    // Supprimer une recherche sauvegardée
     public function destroy($id)
     {
         $savedSearch = SavedSearch::findOrFail($id);
@@ -36,7 +32,6 @@ class SavedSearchController extends Controller
         return back()->with('success', 'Recherche sauvegardée supprimée avec succès.');
     }
 
-    // Afficher le formulaire d'édition
     public function edit($id)
     {
         $search = SavedSearch::findOrFail($id);
@@ -52,12 +47,10 @@ class SavedSearchController extends Controller
 }
 
 
-    // Mettre à jour une recherche sauvegardée
 public function update(Request $request, $id)
 {
     $search = SavedSearch::findOrFail($id);
 
-    // Validation des données
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
         'ville' => 'nullable|string|max:255',
@@ -69,7 +62,6 @@ public function update(Request $request, $id)
         'ordre' => 'nullable|string|in:prix_asc,prix_desc',
     ]);
 
-    // Mise à jour de la recherche sauvegardée
     $search->name = $request->input('name');
     $search->search_criteria = $validatedData;
     $search->save();

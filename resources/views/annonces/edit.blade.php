@@ -56,7 +56,6 @@
                 <option value="maison" {{ old('type', $annonce->type) == 'maison' ? 'selected' : '' }}>Maison</option>
                 <option value="studio" {{ old('type', $annonce->type) == 'studio' ? 'selected' : '' }}>Studio</option>
                 <option value="loft" {{ old('type', $annonce->type) == 'loft' ? 'selected' : '' }}>Loft</option>
-                <!-- Ajoutez d'autres types si nécessaire -->
             </select>
         </div>
 
